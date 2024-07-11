@@ -132,7 +132,7 @@ export function Activities({ tripDetails }: Props) {
                             )}
                         </View>
                     )}
-                    contentContainerClassName="gap-3"
+                    contentContainerClassName="gap-3 pb-28"
                     showsVerticalScrollIndicator={false}
                 />
             )}
