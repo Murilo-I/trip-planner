@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from "dayjs"
-import { DateData, CalendarUtils } from "react-native-calendars"
+import { CalendarUtils, DateData } from "react-native-calendars"
 import { MarkedDates } from "react-native-calendars/src/types"
 
 type OrderStartsAtAndEndsAt = {
@@ -14,7 +14,7 @@ type FormatDatesInText = {
 }
 
 export type DatesSelected = {
-  startsAt: DateData | undefined
+  startsAt: DateData
   endsAt: DateData | undefined
   dates: MarkedDates
   formatDatesInText: string
@@ -67,14 +67,16 @@ function orderStartsAtAndEndsAt({
 }
 
 function formatDatesInText({ startsAt, endsAt }: FormatDatesInText) {
-  const formatted = `${startsAt.date()} à ${endsAt.date()} de ${startsAt.format(
-    "MMMM"
-  )}`
+  const startMonth = startsAt.format("MMMM")
+  const endMonth = endsAt.format("MMMM")
+  const formatted = startMonth === endMonth
+    ? `${startsAt.date()} à ${endsAt.date()} de ${endMonth}`
+    : `${startsAt.date()} de ${startMonth} à ${endsAt.date()} de ${endMonth}`
 
   return formatted
 }
 
-function getIntervalDates(startsAt: DateData, endsAt: DateData): MarkedDates {
+export function getIntervalDates(startsAt: DateData, endsAt: DateData): MarkedDates {
   const start = dayjs(startsAt.dateString)
   const end = dayjs(endsAt.dateString)
 
@@ -104,4 +106,5 @@ export const calendarUtils = {
   orderStartsAtAndEndsAt,
   formatDatesInText,
   dateToCalendarDate: CalendarUtils.getCalendarDateString,
+  getIntervalDates
 }

@@ -11,25 +11,33 @@ type ButtonProps = TouchableOpacityProps & {
 
 const ThemeContext = createContext<{ variant?: Variants }>({});
 
-function Button({ variant = "primary", children, isLoading, ...rest }: ButtonProps) {
+function Button({
+    variant = "primary",
+    children,
+    isLoading,
+    className,
+    ...rest
+}: ButtonProps) {
     return (
-        <TouchableOpacity
-            activeOpacity={.7}
-            disabled={isLoading}
-            {...rest}
-        >
-            <View className={clsx(
-                "w-full h-10 flex-row items-center justify-center rounded-lg gap-2",
-                {
-                    "bg-lime-300": variant === "primary",
-                    "bg-zinc-800": variant === "secondary"
-                }
-            )}>
-                <ThemeContext.Provider value={{ variant }}>
-                    {isLoading ? <ActivityIndicator className="text-lime-950" /> : children}
-                </ThemeContext.Provider>
-            </View>
-        </TouchableOpacity>
+        <View className={className}>
+            <TouchableOpacity
+                activeOpacity={.7}
+                disabled={isLoading}
+                {...rest}
+            >
+                <View className={clsx(
+                    "w-full h-10 flex-row items-center justify-center rounded-lg gap-2 px-2",
+                    {
+                        "bg-lime-300": variant === "primary",
+                        "bg-zinc-800": variant === "secondary"
+                    }
+                )}>
+                    <ThemeContext.Provider value={{ variant }}>
+                        {isLoading ? <ActivityIndicator className="text-lime-950" /> : children}
+                    </ThemeContext.Provider>
+                </View>
+            </TouchableOpacity>
+        </View>
     );
 }
 
